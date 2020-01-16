@@ -21,7 +21,7 @@ const tableName = 'SchoolStudents';
  * @param {string} event.studentLastName
  * @param {string} event.studentGrade
  */
-exports.handler = (event) => {
+exports.handler = async (event) => {
   // TODO validate that all expected attributes are present (assume they are all required)
   // TODO use the AWS.DynamoDB.DocumentClient to save the 'SchoolStudent' record
   // The 'SchoolStudents' table key is composed of schoolId (partition key) and studentId (range key).
@@ -42,11 +42,6 @@ exports.handler = (event) => {
   	Item: doc
   }
 
-  dynamodb.put(submission, function(err, data){
-  	if (err) {
-  		console.error("Error submitting doc: " + JSON.stringify(err));
-  		return Error(err);
-  	}
-  });
+  return await dynamodb.put(submission).promise();
 
 };
